@@ -35,7 +35,7 @@ all_amount INT NOT NULL,
 id_item_fk INT FOREIGN KEY REFERENCES Item(id_item),
 id_category_fk INT FOREIGN KEY REFERENCES Item_Category(id_category),
 price FLOAT
-CONSTRAINT idStockItemPrice UNIQUE (id_stock_item, price) --unique pare
+CONSTRAINT idStockItemPrice UNIQUE (id_item_fk, price) --unique pare
 )
 
 CREATE TABLE Destination_stock_item(
@@ -59,8 +59,10 @@ id_invoice_position INT IDENTITY PRIMARY KEY,
 id_invoice_fk INT FOREIGN KEY REFERENCES Invoice(id_invoice),
 amount INT,
 price FLOAT,
-id_stock_item_fk INT FOREIGN KEY REFERENCES Stock_item(id_stock_item),
+id_item_fk INT,
 id_category_fk INT FOREIGN KEY REFERENCES Item_Category(id_category),
+CONSTRAINT InvIdStockItemPrice_fk  FOREIGN KEY(id_item_fk, price)
+REFERENCES Stock_item(id_item_fk, price)
 )
 
 CREATE TABLE History_delete_Destination_Sender(
@@ -81,7 +83,7 @@ id_category_fk INT FOREIGN KEY REFERENCES Item_Category(id_category),
 )
 
 DROP TABLE History_Delete_Invoice_position
-DBCC CHECKIDENT ('History_Delete_Invoice_position', RESEED, 1) --set IDENTITY counter to 1
+DBCC CHECKIDENT ('Invoice_position', RESEED, 9) --set IDENTITY counter to 1
 GO
 
 SELECT * FROM Invoice_position
